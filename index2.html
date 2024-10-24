@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チュートリアル</title>
+	<style>
+	body {
+		
+		background-image: url("HK.jpg");
+			background-size: cover;
+		}
+		.gif-container {
+            position: absolute;
+            transition: left 1s ease, top 1s ease;
+        }
+
+        .gif-container img {
+            max-width: 135px;
+            height: auto;
+            cursor: pointer;
+        }
+	img {
+            width: 500px; /* GIFのサイズを調整 */
+            cursor: pointer;
+        }
+		
+		/* 右下にボタンを固定するスタイル */
+        #music-control {
+            position: fixed;  /* 固定位置に配置 */
+            bottom: 10px;     /* 画面の下から10px */
+            right: 10px;      /* 画面の右から10px */
+            background-color: #D4BAE9; /* 背景色 */
+            padding: 0px;    /* ボタン周りに余白 */
+            border-radius: 5px; /* 角を丸める */
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.1); /* 軽い影を付ける */
+        }
+
+        #music-control button {
+            font-size: 8px;   /* ボタンの文字サイズ */
+            padding: 0px 0px; /* ボタンの余白 */
+            cursor: pointer;   /* ホバー時にポインタを表示 */
+        }
+		
+	</style>
+</head>
+<body>
+	
+	<audio id="bgm" src="bgm.mp3" autoplay loop>
+        お使いのブラウザはaudioタグをサポートしていません。
+    </audio>
+
+    <!-- BGMの再生・停止ボタンを右下に配置するためのコンテナ -->
+    <div id="music-control">
+        <button onclick="toggleMusic()">BGMを一時停止/再生</button>
+    </div>
+
+<!-- GIFを表示する -->
+<img id="gif" src="tyu1.gif" alt="GIFをクリックして変更" onclick="changeGif()">
+
+<script>
+    // GIFのリスト
+    const gifs = ["tyu1.gif", "tyu2.gif", "tyu3.gif","tyu4.gif","tyu5.gif","tyu6.gif","tyu7.gif","tyu8.gif","tyu9.gif","tyu10.gif","tyu11.gif","tyu12.gif","tyu13.gif","tyu14.gif","tyu15.gif","tyu16.gif","tyu17.gif","tyu18.gif","tyu19.gif","tyu20.gif","tyu21.gif"]; // 複数のGIFをリストに入れる
+    let currentGifIndex = 0;
+	
+	var mediaLists = {
+            'a': {
+                gifs: ['A-t.gif', 'A-y.gif', 'A-u.gif'],
+                sound: '11.mp3'
+            },
+            'b': {
+                gifs: ['B-t.gif', 'B-y.gif', 'B-u.gif'],
+                sound: '11.mp3'
+            },
+			'c': {
+                gifs: ['C-t.gif', 'C-y.gif', 'C-u.gif'],  // Cキー用のGIFリスト
+                sound: '11.mp3'
+            },
+			'd': {
+				gifs:['D-t.gif','D-y.gif','D-u.gif'],
+				sound: '11.mp3'
+			},
+			'e': {
+				gifs:['E-t.gif','E-y.gif','E-u.gif'],
+				sound: '11.mp3'
+			},
+			'f': {
+				gifs:['F-t.gif','F-y.gif','F-u.gif'],
+				sound: '11.mp3'
+			},
+			'g': {
+				gifs:['G-t.gif','G-y.gif','G-u.gif'],
+				sound: '11.mp3'
+			},
+			'h': {
+				gifs:['H-t.gif','H-y.gif','H-u.gif'],
+				sound: '11.mp3'
+			},
+			'i': {
+				gifs:['I-t.gif','I-y.gif','I-u.gif'],
+				sound: '11.mp3'
+			},
+			'j': {
+				gifs:['J-t.gif','J-y.gif','J-u.gif'],
+				sound: '11.mp3'
+			},
+			'k': {
+				gifs:['K-t.gif','K-y.gif','K-u.gif'],
+				sound: '11.mp3'
+			},
+			'l': {
+				gifs:['L-t.gif','L-y.gif','L-u.gif'],
+				sound: '11.mp3'
+			},
+			'm': {
+				gifs:['M-t.gif','M-y.gif','M-u.gif'],
+				sound: '11.mp3'
+			},
+			'n': {
+				gifs:['N-t.gif','N-y.gif','N-u.gif'],
+				sound: '11.mp3'
+			},
+			'o': {
+				gifs:['O-t.gif','O-y.gif','O-u.gif'],
+				sound: '11.mp3'
+			},
+			'p': {
+				gifs:['P-t.gif','P-y.gif','P-u.gif'],
+				sound: '11.mp3'
+			},
+			'q': {
+				gifs:['Q-t.gif','Q-y.gif','Q-u.gif'],
+				sound: '11.mp3'
+			},
+			'r': {
+				gifs:['R-t.gif','R-y.gif','R-u.gif'],
+				sound: '11.mp3'
+			},
+			's': {
+				gifs:['S-t.gif','S-y.gif','S-u.gif'],
+				sound: '11.mp3'
+			},
+			't': {
+				gifs:['T-t.gif','T-y.gif','T-u.gif'],
+				sound: '11.mp3'
+			},
+			'u': {
+				gifs:['U-t.gif','U-y.gif','U-u.gif'],
+				sound: '11.mp3'
+			},
+			'v': {
+				gifs:['V-t.gif','V-y.gif','V-u.gif'],
+				sound: '11.mp3'
+			},
+			'w': {
+				gifs:['W-t.gif','W-y.gif','W-u.gif'],
+				sound: '11.mp3'
+			},
+			'x': {
+				gifs:['X-t.gif','X-y.gif','X-u.gif'],
+				sound: '11.mp3'
+			},
+			'y': {
+				gifs:['Y-t.gif','Y-y.gif','Y-u.gif'],
+				sound: '11.mp3'
+			},
+			'z': {
+				gifs:['Z-t.gif','Z-y.gif','Z-u.gif'],
+				sound: '11.mp3'
+			},
+        };
+	
+	 // 既存のGIFリスト
+    var existingGifs = [];
+
+     // GIFをクリックしたときに呼び出される関数
+    function changeGif() {
+        // 3つ目のGIFまでクリックで切り替える
+        if (currentGifIndex < 2) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 4つ目のGIFが表示されている場合、クリックで5つ目のGIFに進む
+        else if (currentGifIndex === 3) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		 // 5つ目のGIFが表示されている場合、クリックで6つ目のGIFに進む
+        else if (currentGifIndex === 4) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 7つ目のGIFが表示されている場合、クリックで8つ目のGIFに進む
+        else if (currentGifIndex === 6) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 9つ目のGIFが表示されている場合、クリックで10つ目のGIFに進む
+		 else if (currentGifIndex === 8) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 10つ目のGIFが表示されている場合、クリックで11つ目のGIFに進む
+		 else if (currentGifIndex === 9) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		
+		// 12つ目のGIFが表示されている場合、クリックで13つ目のGIFに進む
+		 else if (currentGifIndex === 11) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 14つ目のGIFが表示されている場合、クリックで15つ目のGIFに進む
+		 else if (currentGifIndex === 13) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 16つ目のGIFが表示されている場合、クリックで17つ目のGIFに進む
+		 else if (currentGifIndex === 15) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 18つ目のGIFが表示されている場合、クリックで19つ目のGIFに進む
+		 else if (currentGifIndex === 17) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 19つ目のGIFが表示されている場合、クリックで20つ目のGIFに進む
+		 else if (currentGifIndex === 18) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// 20つ目のGIFが表示されている場合、クリックで21つ目のGIFに進む
+		 else if (currentGifIndex === 19) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+    }
+	
+	function checkGifAndRedirect() {
+        if (currentGifIndex === 20) { // 21個目のGIFが表示された状態
+            setTimeout(function() {
+                window.location.href = "index.html"; // リンク先をHTMLファイルに変更
+            }, 4000); // 4秒後に実行
+        }
+    }
+
+    document.getElementById("gif").addEventListener("load", checkGifAndRedirect);
+	
+
+	// mediaLists内のGIFを表示してクリック可能にする関数
+    function createMediaGif(key) {
+        var gifSrcList = mediaLists[key].gifs;
+
+        // 1つ目のGIFを作成
+        var gifContainer = document.createElement('div');
+        gifContainer.classList.add('gif-container');
+        var gifElement = document.createElement('img');
+        gifElement.src = gifSrcList[0];
+        gifElement.width = 135;
+        document.body.appendChild(gifContainer);
+        gifContainer.appendChild(gifElement);
+
+        // 表示されたGIFをexistingGifsに追加
+        existingGifs.push(gifElement);
+
+        // mediaLists内のGIFをクリックしたら12個目のGIFに切り替え
+        gifElement.addEventListener('click', function() {
+            if (currentGifIndex === 10) {
+                currentGifIndex++;
+                document.getElementById("gif").src = gifs[currentGifIndex]; // 12個目のGIFに切り替え
+            }
+        });
+    }
+	
+    // キーボードが押されたときのイベントリスナー
+    document.addEventListener("keydown", function(event) {
+        // currentGifIndexが3つ目のGIFの場合のみ、キーが押されたら4つ目に切り替える
+        if (currentGifIndex === 2) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// currentGifIndexが6つ目のGIFで、スペースキーが押された場合、7つ目に切り替える
+        if (currentGifIndex === 5 && event.code === "Space") {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// currentGifIndexが8つ目のGIFで、スペースキーが押された場合、9つ目に切り替える
+		 if (currentGifIndex === 7 && event.code === "Space") {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex];
+        }
+		// currentGifIndexが15のときにデリートキーが押されたら16個目に切り替える
+        if (currentGifIndex === 14 && (event.code === "Delete" || event.code === "Backspace")) {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex]; // 16個目のGIFに変更
+        }
+		// currentGifIndexが17のときにエンターキーが押されたら18個目に切り替える
+        if (currentGifIndex === 16 && event.code === "Enter") {
+            currentGifIndex++;
+            document.getElementById("gif").src = gifs[currentGifIndex]; // 18個目のGIFに変更
+        }
+    });
+	
+	
+
+       var existingGifs = [];
+        var fixedGifs = [];
+
+        var currentX = 0;
+        var currentY = 0;
+
+        var gifWidth = 135;
+        var gifHeight = 135;
+
+        function playSound(soundSrc) {
+            var audio = new Audio(soundSrc);
+            audio.play();
+        }
+
+        function getRandomPosition(maxWidth, maxHeight) {
+            var x = Math.floor(Math.random() * maxWidth);
+            var y = Math.floor(Math.random() * maxHeight);
+            return { x: x, y: y };
+        }
+
+        function toggleGif(gifElement, gif1, gif2, delay) {
+            gifElement.src = gif1;
+            setTimeout(function() {
+                gifElement.src = gif2;
+            }, delay);
+        }
+
+        function toggleGifOnClick(gifElement, originalGif, temporaryGif) {
+            gifElement.addEventListener('click', function() {
+                gifElement.src = temporaryGif;
+                setTimeout(function() {
+                    gifElement.src = originalGif;
+                }, 1000);
+            });
+        }
+
+        function showGifForKey(key) {
+            if (!mediaLists[key]) return;
+
+            var gifSrcList = mediaLists[key].gifs;
+            var initialGifSrc = gifSrcList[0];
+            var loopGifSrc = gifSrcList[1];
+            var clickGifSrc = gifSrcList[2];
+            var soundSrc = mediaLists[key].sound;
+
+            if (soundSrc) {
+                playSound(soundSrc);
+            }
+
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+
+            var position;
+            var maxAttempts = 100;
+            var attempts = 0;
+
+            do {
+                position = getRandomPosition(windowWidth - gifWidth, windowHeight - gifHeight);
+                attempts++;
+            } while (isOverlapping(position.x, position.y, gifWidth, gifHeight) && attempts < maxAttempts);
+
+            if (attempts === maxAttempts) {
+                console.log("重ならない場所が見つかりませんでした。");
+                return;
+            }
+
+            var gifContainer = document.createElement('div');
+            gifContainer.classList.add('gif-container');
+            gifContainer.style.left = position.x + 'px';
+            gifContainer.style.top = position.y + 'px';
+
+            var gifElement = document.createElement('img');
+            gifElement.width = gifWidth;
+            gifElement.src = initialGifSrc;
+
+            toggleGif(gifElement, initialGifSrc, loopGifSrc, 1000);
+            toggleGifOnClick(gifElement, loopGifSrc, clickGifSrc);
+
+            gifContainer.appendChild(gifElement);
+            document.body.appendChild(gifContainer);
+
+            // ドラッグ可能にする
+            makeGifDraggable(gifContainer);
+
+            existingGifs.push(gifElement);
+        }
+
+        function isOverlapping(x, y, width, height) {
+            for (var i = 0; i < existingGifs.length; i++) {
+                var gif = existingGifs[i];
+                var gifRect = gif.getBoundingClientRect();
+                var gifRight = gifRect.left + gifRect.width;
+                var gifBottom = gifRect.top + gifRect.height;
+                var newRight = x + width;
+                var newBottom = y + height;
+
+                if (x < gifRight && newRight > gifRect.left && y < gifBottom && newBottom > gifRect.top) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // GIFをスライドしながら整列させる
+        function arrangeGifsInGrid() {
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight - 75; // 下部75pxの余白を確保
+            var margin = 10;
+            var rowHeight = 0;
+
+            // 上部に75pxの余白を設定
+            currentY = 175;
+
+            if (fixedGifs.length > 0) {
+                var lastGifRect = fixedGifs[fixedGifs.length - 1].getBoundingClientRect();
+                currentX = lastGifRect.right + 135;
+                currentY = lastGifRect.top;
+            }
+
+            var newGifs = existingGifs.filter(gif => !fixedGifs.includes(gif));
+
+            for (var i = 0; i < newGifs.length; i++) {
+                var gif = newGifs[i];
+                var gifRect = gif.getBoundingClientRect();
+                var gifWidth = gifRect.width;
+                var gifHeight = gifRect.height;
+
+                if (currentX + gifWidth + margin > windowWidth) {
+                    currentX = 0;
+                    currentY += gifHeight + margin;
+                }
+
+                // 画面の下部75px以内にGIFが収まるようにする
+                if (currentY + gifHeight > windowHeight) {
+                    break; // これ以上追加しない
+                }
+
+                gif.parentElement.style.left = currentX + 'px';
+                gif.parentElement.style.top = currentY + 'px';
+                currentX += gifWidth + margin;
+                fixedGifs.push(gif);
+            }
+        }
+
+        // すべてのGIFを削除し、座標をリセットする
+        function removeAllGifs() {
+            var gifContainers = document.querySelectorAll('.gif-container');
+            gifContainers.forEach(function(container) {
+                container.remove();
+            });
+            existingGifs = [];
+            fixedGifs = [];
+
+            // 座標をリセットする
+            currentX = 0;
+            currentY = 0;
+        }
+
+        // 最後のGIFを削除する関数
+        function removeLastGif() {
+            if (existingGifs.length === 0) return;
+
+            var lastGif = existingGifs.pop(); // 最後のGIFを取得しリストから削除
+            lastGif.parentElement.remove(); // 親要素ごと削除
+        }
+
+        // GIFをドラッグ可能にする関数
+        function makeGifDraggable(gifContainer) {
+            var isDragging = false;
+            var offsetX, offsetY;
+
+            gifContainer.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                offsetX = e.clientX - gifContainer.getBoundingClientRect().left;
+                offsetY = e.clientY - gifContainer.getBoundingClientRect().top;
+                gifContainer.style.cursor = 'grabbing';
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    gifContainer.style.left = (e.clientX - offsetX) + 'px';
+                    gifContainer.style.top = (e.clientY - offsetY) + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                gifContainer.style.cursor = 'pointer';
+				
+				// 13個目のGIFが表示されている場合、14個目のGIFに切り替える
+            if (currentGifIndex === 12) { // 13個目が表示されている状態
+                currentGifIndex++; // 14個目に進む
+                document.getElementById("gif").src = gifs[currentGifIndex]; // 14個目のGIFに変更
+            }
+            });
+        }
+
+        document.addEventListener('keydown', function(event) {
+            var pressedKey = event.key.toLowerCase();
+            if (pressedKey === ' ') {
+                arrangeGifsInGrid();
+            } else if (pressedKey === 'enter') {
+                removeAllGifs();  // エンターキーでGIFを削除し、整列の座標をリセット
+            } else if (pressedKey === 'delete' || pressedKey === 'backspace') {
+                removeLastGif();  // deleteキーで最後に追加したGIFを削除
+            } else {
+                showGifForKey(pressedKey);
+            }
+        });
+	
+	 // mediaLists内のGIFが表示されているか確認する関数
+    function isMediaListGifClicked(event) {
+        // クリックされた要素がmediaLists内のGIFかどうか確認
+        for (var gif of existingGifs) {
+            if (gif === event.target && currentGifIndex === 10) {
+                currentGifIndex++;
+                document.getElementById("gif").src = gifs[currentGifIndex]; // 12個目のGIFに切り替え
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // ドキュメント全体にクリックイベントを追加し、mediaListsのGIFがクリックされたかチェック
+    document.addEventListener('click', function(event) {
+        isMediaListGifClicked(event);
+    });
+	
+	// BGMの再生・停止を切り替えるJavaScript関数
+        function toggleMusic() {
+            var bgm = document.getElementById('bgm');
+            if (bgm.paused) {
+                bgm.play();  // 再生
+            } else {
+                bgm.pause();  // 一時停止
+            }
+        }
+	
+</script>
+
+</body>
+</html>
